@@ -1,0 +1,3 @@
+signature Eden.Core.Statement where
+
+data Statement

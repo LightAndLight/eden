@@ -1,0 +1,8 @@
+signature Eden.LambdaCalculus.Application where
+
+import Control.Lens
+
+import Eden.Core.Expr
+import Eden.Core.Identifier
+
+_Application :: Prism' Expr (Expr, Expr)

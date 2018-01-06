@@ -1,0 +1,5 @@
+signature Eden.Core.Printer where
+
+import Eden.Core.AST
+
+render :: AST -> String

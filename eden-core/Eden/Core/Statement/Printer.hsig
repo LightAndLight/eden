@@ -1,0 +1,5 @@
+signature Eden.Core.Statement.Printer where
+
+import Eden.Core.Statement
+
+renderStatement :: Statement -> String

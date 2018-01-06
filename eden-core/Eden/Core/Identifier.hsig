@@ -1,0 +1,7 @@
+signature Eden.Core.Identifier where
+  import Control.Lens
+
+  data Identifier
+  instance Eq Identifier
+
+  _Identifier :: Prism' String Identifier

@@ -1,0 +1,8 @@
+signature Eden.LambdaCalculus.Abstraction where
+
+import Control.Lens
+
+import Eden.Core.Expr
+import Eden.Core.Identifier
+
+_Abstraction :: Prism' Expr (Identifier, Expr)
