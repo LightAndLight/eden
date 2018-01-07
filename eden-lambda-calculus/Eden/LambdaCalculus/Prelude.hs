@@ -1,21 +1,12 @@
 module Eden.LambdaCalculus.Prelude where
 
-import Prelude ()
+import Prelude hiding (id, const)
 import Control.Lens
 
-import Eden.LambdaCalculus
+import Eden.LambdaCalculus.Expr
 
 id :: Expr
-id =
-  let
-    x = "x" ^?! _Identifier
-  in
-    _Abstraction # (x, _Variable # x)
+id = Abstraction "x" $ Variable "x"
 
 const :: Expr
-const =
-  let
-    x = "x" ^?! _Identifier
-    y = "y" ^?! _Identifier
-  in
-    _Abstraction # (x, _Abstraction # (y, _Variable # x))
+const = Abstraction "x" $ Abstraction "y" $ Variable "x"

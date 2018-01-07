@@ -37,27 +37,33 @@ library eden-core-statement
 
 library eden-lambda-calculus
   hs-source-dirs:      eden-lambda-calculus
-  signatures:          Eden.LambdaCalculus.Variable
-                     , Eden.LambdaCalculus.Abstraction
-                     , Eden.LambdaCalculus.Application
-  exposed-modules:     Eden.LambdaCalculus
+  exposed-modules:     Eden.LambdaCalculus.Expr
+                     , Eden.LambdaCalculus.Expr.Printer
                      , Eden.LambdaCalculus.Prelude
+  default-language:    Haskell2010
+  build-depends:       base >=4.9 && <4.11
+                     , lens
+
+library eden-lambda-calculus-indef
+  hs-source-dirs:      eden-lambda-calculus-indef
+  signatures:          Eden.LambdaCalculus.Prisms
   default-language:    Haskell2010
   build-depends:       base >=4.9 && <4.11
                      , lens
                      , eden-core-expr
                      , eden-core-identifier
+                     , eden-lambda-calculus
 
 library eden-python
   hs-source-dirs:      eden-python
   exposed-modules:     Eden.Core.Expr
                      , Eden.Core.Expr.Printer
                      , Eden.Core.Identifier
-                     , Eden.LambdaCalculus.Variable
-                     , Eden.LambdaCalculus.Abstraction
-                     , Eden.LambdaCalculus.Application
+                     , Eden.LambdaCalculus.Prisms.Impl
   default-language:    Haskell2010
-  build-depends:       base >=4.9 && <4.11, lens
+  build-depends:       base >=4.9 && <4.11
+                     , lens
+                     , eden-lambda-calculus
 
 library eden-javascript
   hs-source-dirs:      eden-javascript
@@ -67,11 +73,11 @@ library eden-javascript
                      , Eden.Core.Expr
                      , Eden.Core.Expr.Printer
                      , Eden.Core.Internal
-                     , Eden.LambdaCalculus.Variable
-                     , Eden.LambdaCalculus.Abstraction
-                     , Eden.LambdaCalculus.Application
+                     , Eden.LambdaCalculus.Prisms.Impl
   default-language:    Haskell2010
-  build-depends:       base >=4.9 && <4.11, lens
+  build-depends:       base >=4.9 && <4.11
+                     , lens
+                     , eden-lambda-calculus
 
 library my-program
   hs-source-dirs:      src
@@ -80,24 +86,29 @@ library my-program
   build-depends:       base >=4.9 && <4.11
                      , lens
                      , eden-lambda-calculus
+                     , eden-lambda-calculus-indef
 
 library my-program-python
   hs-source-dirs:      src
+  reexported-modules:  MyProgram
   build-depends:       base >=4.9 && <4.11
                      , my-program
                      , lens
-                     , eden-lambda-calculus
                      , eden-python
-  exposed-modules:     MyProgram
+  mixins:              eden-python
+                         (Eden.LambdaCalculus.Prisms.Impl as Eden.LambdaCalculus.Prisms)
+                     , eden-python
 
 library my-program-javascript
   hs-source-dirs:      src
+  reexported-modules:  MyProgram
   build-depends:       base >=4.9 && <4.11
                      , my-program
                      , lens
-                     , eden-lambda-calculus
                      , eden-javascript
-  exposed-modules:     MyProgram
+  mixins:              eden-javascript
+                         (Eden.LambdaCalculus.Prisms.Impl as Eden.LambdaCalculus.Prisms)
+                     , eden-javascript
 
 executable eden-demo
   main-is:             Main.hs
@@ -105,7 +116,16 @@ executable eden-demo
                      , lens
                      , my-program-python
                      , my-program-javascript
+                     , eden-python
+                     , eden-javascript
   mixins:              my-program-python (MyProgram as Python.MyProgram)
                      , my-program-javascript (MyProgram as JavaScript.MyProgram)
+                     , eden-python (Eden.Core.Expr as Python.Expr)
+                     , eden-python (Eden.LambdaCalculus.Prisms.Impl as Python.Optics)
+                     , eden-python (Eden.Core.Expr.Printer as Python.Expr.Printer)
+                     , eden-javascript (Eden.Core.Expr as JavaScript.Expr)
+                     , eden-javascript (Eden.Core.Statement as JavaScript.Statement)
+                     , eden-javascript (Eden.LambdaCalculus.Prisms.Impl as JavaScript.Optics)
+                     , eden-javascript (Eden.Core.Expr.Printer as JavaScript.Expr.Printer)
   hs-source-dirs:      src
   default-language:    Haskell2010

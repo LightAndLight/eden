@@ -1,0 +1,11 @@
+signature Eden.LambdaCalculus.Prisms where
+
+import Control.Lens
+
+import Eden.Core.Expr
+import qualified Eden.LambdaCalculus.Expr as LC
+
+_LCTerm :: Prism' Expr LC.Expr
+_Variable :: Prism' Expr String
+_Application :: Prism' Expr (LC.Expr, LC.Expr)
+_Abstraction :: Prism' Expr (String, LC.Expr)

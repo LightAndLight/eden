@@ -1,8 +1,0 @@
-signature Eden.LambdaCalculus.Variable where
-
-import Control.Lens
-
-import Eden.Core.Expr
-import Eden.Core.Identifier
-
-_Variable :: Prism' Expr Identifier
