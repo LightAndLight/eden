@@ -15,3 +15,27 @@ cabal install --only-dependencies
 cabal new-build
 # then find the executable and run it, since new-run seems to be broken
 ```
+
+## `eden-demo`
+
+[Here's the file](https://github.com/LightAndLight/eden/blob/master/src/Main.hs), and this is what it outputs:
+
+```
+My program...
+
+...As Javascript:
+function (x) { return x; }
+function (x) { return function (y) { return x; }; }
+(function (x) { return x; })(function (x) { return function (y) { return x; }; })
+
+...As Python:
+lambda x: x
+lambda x: lambda y: x
+(lambda x: x)(lambda x: lambda y: x)
+
+Python translated from JavaScript via lambda calculus
+lambda x: x
+
+JavaScript translated from Python via lambda calculus
+function (x) { return function (y) { return x; }; }
+```
